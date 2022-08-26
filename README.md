@@ -1,1 +1,2 @@
-# 2001CE24_2022
+# CS384_2022
+Tuts Assignments
