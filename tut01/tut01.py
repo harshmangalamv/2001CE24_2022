@@ -11,19 +11,39 @@ df.at[0, "U Avg"] = df["U"].mean()
 df = df.fillna()
 sz = len(df)
 
-
+# this function calculates the differences required
 def fun(a, b, c, sz):
     for i in range(sz):
         df.at[i, c] = df.at[i, a] - df.at[0, b]
 
 # df.drop("W'=W - W avg", inplace=True, axis=1)
 
-
+# function calls for meking changes as pre requirement for the columns
 fun("U", "U Avg", "U'", sz)
 fun("V", "V Avg", "V'", sz)
 fun("W", "W Avg", "W'", sz)
 
 # df
+
+for i in range(sz):
+    if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+        df.at[i, "Octant"] = 1
+    if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+        df.at[i, "Octant"] = -1
+    if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+        df.at[i, "Octant"] = 2
+    if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+        df.at[i, "Octant"] = -2
+    if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+        df.at[i, "Octant"] = 3
+    if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+        df.at[i, "Octant"] = -3
+    if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+        df.at[i, "Octant"] = 4
+    if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+        df.at[i, "Octant"] = -4
+
+df
 
 # def nanToZero(a):
 #     for i in range(sz):
