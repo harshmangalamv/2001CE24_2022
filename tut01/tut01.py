@@ -1,19 +1,39 @@
 import pandas as pd
-import csv
-import platform
-def octact_identification(mod=5000):
-###Code
+import pandas as pd
 
-## upd: updated, minor bugs and better functionality
+# UPD: original code from tutorial that checked python version removed - not needed anymore
+df = pd.read_csv("octant_input.csv")
+
+df.at[0, "U Avg"] = df["U"].mean()
+df.at[0, "V Avg"] = df["V"].mean()
+df.at[0, "W Avg"] = df["W"].mean()
+df.at[0, "U Avg"] = df["U"].mean()
+df = df.fillna()
+sz = len(df)
 
 
-    from platform import python_version
-    ver = python_version()
+def fun(a, b, c, sz):
+    for i in range(sz):
+        df.at[i, c] = df.at[i, a] - df.at[0, b]
 
-    if ver >= "3.8.10":
-        print("Correct Version Installed")
-    else:
-        print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
+# df.drop("W'=W - W avg", inplace=True, axis=1)
 
-mod=5000
-octact_identification(mod)
+
+fun("U", "U Avg", "U'", sz)
+fun("V", "V Avg", "V'", sz)
+fun("W", "W Avg", "W'", sz)
+
+# df
+
+# def nanToZero(a):
+#     for i in range(sz):
+#         if(df.at[i, a]=="NaN"):
+#             df.at[i, a]=0
+# nanToZero("U Avg")
+# nanToZero("V Avg")
+# nanToZero("W Avg")
+
+# df["U Avg"].dropna
+# df["V Avg"].dropna
+# df["W Avg"].dropna
+# df.dropna()
