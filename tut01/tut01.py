@@ -43,7 +43,26 @@ for i in range(sz):
     if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
         df.at[i, "Octant"] = -4
 
-df
+# df
+
+# mod = int(input("Enter the alue of mod:\n"))
+mod = 5000
+df["Octant ID"] = ''
+df.at[1, "Octant ID"] = "Overall Count"
+df.at[2, "Octant ID"] = f"mod: {mod}"
+
+mn = 5001
+mx = 10000
+
+for i in range(3, 9):
+    if(i == 3):
+        df.at[i, "Octant ID"] = "0000-5000"
+    else:
+        df.at[i, "Octant ID"] = f"{mn} - {mx}"
+        mn = mn + 5000
+        mx = mx + 5000
+
+# df.head(15)
 
 # def nanToZero(a):
 #     for i in range(sz):
