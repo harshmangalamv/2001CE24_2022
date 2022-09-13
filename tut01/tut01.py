@@ -64,6 +64,44 @@ for i in range(3, 9):
 
 # df.head(15)
 
+
+for row in range(3, 9):
+    freq = {}
+#     if(row>10):
+#         break
+    if(row == 3):
+        mn = 0
+        mx = mod
+    for i in range(mn, mx):
+        if(i >= 29745):
+            break
+        if(df.at[i, "Octant"] in freq):
+            freq[df.at[i, "Octant"]] = freq[df.at[i, "Octant"]] + 1
+        else:
+            freq[df.at[i, "Octant"]] = 1
+    for key, value in freq.items():
+        df.at[row, key] = value
+        if(df.at[1, key] == ''):
+            df.at[1, key] = 0
+        df.at[1, key] = df.at[1, key] + value
+
+    if(row == 3):
+        mn = mod+1
+        mx = 2*mod
+    if(row > 3):
+        mn = mn + mod
+        mx = mx + mod
+
+
+# for i in range(1, 5000):
+#     if(df.at[i, "Octant"]==1.0):
+#         count1 = count1+1
+
+# count1
+df = df.fillna('')
+df.head(15)
+# df
+
 # def nanToZero(a):
 #     for i in range(sz):
 #         if(df.at[i, a]=="NaN"):
