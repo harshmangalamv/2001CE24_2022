@@ -102,9 +102,9 @@ def octant_identification(mod = 4000):
     print(df.head(30)) # printing top 30 rows to review
 
     # this part exports df to an output file if not present, otherwise it first deletes it first to avoid overwriting errors i faced in my system 
-    if Path("octant_output.csv").exists():
-        os.remove("octant_output.csv")
-    df.to_csv('octant_output.csv')
+    if Path("tut01/octant_output.csv").exists():
+        os.remove("tut01/octant_output.csv")
+    df.to_csv('tut01/octant_output.csv')
 
     print("mod: ", mod)
 
