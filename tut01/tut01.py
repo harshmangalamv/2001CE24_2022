@@ -49,7 +49,8 @@ def octant_identification(mod = 4000):
             df.at[i, "Octant"] = -4
 
     # df
-
+    # Creating a column named "User Activity" then placing "User Input" at its place 
+    # then creating and filling different values 
     df["User Activity"] = ""
     df.at[2, "User Activity"] = "User Input->"
     df["Octant ID"] = ''
@@ -60,6 +61,7 @@ def octant_identification(mod = 4000):
     mx = mod - 1
     rowMax = sz // mod
 
+    # populating ranges of sizes mod starting from 0 to mod-1 till last interval max value hits df' max row value
     for i in range(3, rowMax + 4):
         if i is rowMax + 3:
             mx = sz - 1
@@ -67,33 +69,32 @@ def octant_identification(mod = 4000):
         mn = mn + mod
         mx = mx + mod
 
-    temp = df.at[2, "Octant ID"]
     # df.head(15)
 
     mn = 0
     mx = mod - 1
 
+    # for every range, iterating and storing count of octant values by using a map, later updating the overall count
+    # values of corresponding octant values in overall count row 
     for row in range(3, rowMax + 4):
-        freq = {}
+        freq = {} # intiating freq map
         for i in range(mn, mx):
             if(i >= 29745):
                 break
             if(df.at[i, "Octant"] in freq):
-                freq[df.at[i, "Octant"]] = freq[df.at[i, "Octant"]] + 1
+                freq[df.at[i, "Octant"]] = freq[df.at[i, "Octant"]] + 1 # incrementing the key value for the key
             else:
-                freq[df.at[i, "Octant"]] = 1
+                freq[df.at[i, "Octant"]] = 1 # initiating the key if not present
 
         for key, value in freq.items():
             df = df.fillna('')
 
-            df.at[row, key] = int(value)
+            df.at[row, key] = int(value) # filling the value corresponding to every octant value (key) and row range (row)
 
-            if(df.at[1, key] == ''):
-                df.at[1, key] = 0
             df = df.fillna(0)
-            df.at[1, key] = int(df.at[1, key]) + int(value)
+            df.at[1, key] = int(df.at[1, key]) + int(value) # updating the verall count (row 1) and octant value (key) 
 
-        df = df.fillna('')
+        # df = df.fillna('')
 
         mn = mn + mod
         mx = mx + mod
@@ -107,5 +108,5 @@ def octant_identification(mod = 4000):
 
     print("mod: ", mod)
 
-mod = 8000
+mod = 300
 octant_identification(mod)
