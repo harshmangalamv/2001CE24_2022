@@ -88,7 +88,63 @@ def octant_transition_count(mod=5000):
     mn = mn + mod
     mx = mx + mod
 
+    def trans(st, en, row, col):
+        df.iloc[row, col] = "Mod Transition Count"
+        df.iloc[row+1, col] = f'{st} - {en}'
+        df.iloc[row+2, col] = "Count"
+        df.iloc[row+1, col+1] = "To"
+        df.iloc[row+3, col-1] = "From"
+        head = -4
+
+        for x in range(1, 9):
+            if head != 0:
+                df.iloc[row + 2, col + x] = head
+            head += 1
+            if head == 0:
+                head += 1
+        
+        head = -4
+        for x in range(3, 11):
+            if head != 0:
+                df.iloc[row + x, col] = head
+            head += 1
+            if head == 0:
+                head += 1
+        
+        for x in range(st, en + 1):
+            if x == 29744:
+                break
+            stv = df.at[x, 'Octant']
+            env = df.at[x+1, 'Octant']
+            stv = int(stv)
+            env = int(env)
+            ads = 5
+            ade = 5
+            if(env > 0):
+                ade = 4
+            if(stv > 0):
+                ads = 4
+            stv = row + stv + ads + 2
+            env = col + env + ade
+            df.iat[stv, env] += 1
+        
     
+    row = rowMax + 18
+    col = 12
+    st = 0
+    en = mod - 1
+    num = sz//(mod) + 1
+
+    for i in range(num):
+        trans(st, en, row, col)
+        st = en + 1
+        en = en + mod
+        if en > 29740:
+            en = 29744
+        row = row + 13
+    
+    trans(0, sz-1, rowMax + 5, 12)
+
 
     if Path("octant_output22.csv").exists():
         os.remove("octant_output22.csv")
