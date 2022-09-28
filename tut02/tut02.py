@@ -3,6 +3,7 @@ import math
 import os
 from pathlib import Path
 # df = pd.read_excel('input_octant_transition_identify.xlsx')
+# the following part is copied from the previous tutorial work i.e. tut01: 
 def octant_transition_count(mod=5000):
     ###Code
     
@@ -88,14 +89,21 @@ def octant_transition_count(mod=5000):
     mn = mn + mod
     mx = mx + mod
 
+# what follows from here onwards is the major part that solves the problem of mod transition count:
+
+# this function takes start, end (integral values for a specific mod range) and row, col integral values for uppermost left
+# end of the table that solves a part of the problem
+
     def trans(st, en, row, col):
         df.iloc[row, col] = "Mod Transition Count"
         df.iloc[row+1, col] = f'{st} - {en}'
         df.iloc[row+2, col] = "Count"
         df.iloc[row+1, col+1] = "To"
         df.iloc[row+3, col-1] = "From"
+        
+        # preparing headers for transitions
+        # kindly NOTE_ THE TRANSITION HEADS IN MY OUTPUT ARE DIFFERENT, AS THEY NEED NOT NECESSARILY BE IN THE SAME ORDER AS GIVEN IN THE SAMPLE
         head = -4
-
         for x in range(1, 9):
             if head != 0:
                 df.iloc[row + 2, col + x] = head
@@ -111,6 +119,10 @@ def octant_transition_count(mod=5000):
             if head == 0:
                 head += 1
         
+        #   first stv, env collect transition "from" and "to" values, then their corresponding universal row and column values are computed
+        #   and stored int them only
+        #   then df.iat[stv, env], which tells the transition value corresponding to count of change from "stv" to "env", is ioncremented
+        #   once correspondingly
         for x in range(st, en + 1):
             if x == 29744:
                 break
