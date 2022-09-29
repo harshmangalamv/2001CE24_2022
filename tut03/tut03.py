@@ -2,9 +2,6 @@ import pandas as pd
 import math
 import os
 from pathlib import Path
-# df = pd.read_excel('input_octant_transition_identify.xlsx')
-# the following part is copied from the previous tutorial work i.e. tut01:
-
 
 def octant_longest_subsequence_count(mod=5000):
     ###Code
@@ -58,9 +55,7 @@ def octant_longest_subsequence_count(mod=5000):
     for i in range(1, 9):
         df.at[i, 'Count'] = int(mp[i])
 
-    ct = {1: 0, -1: 0, 2: 0, -2: 0, 3: 0, -3: 0, 4: 0, -4: 0}
     loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
-    ct_count = {1: 0, -1: 0, 2: 0, -2: 0, 3: 0, -3: 0, 4: 0, -4: 0}
     for i in range(1, 9):
         df.loc[i, "Longest Subsequence Length"] = int(0)
         df.loc[i, "count"] = int(0)
@@ -73,14 +68,22 @@ def octant_longest_subsequence_count(mod=5000):
             if df.at[j, 'Octant'] == i:
                 temp_ct += 1
             else:
-                if df.at[1 + int(loc[i]), "Longest Subsequence Length"] == temp_ct:
-                    df.at[1 + int(loc[i]), "count"] += 1
-                # print(temp_ct, " ",
-                #       df.loc[1 + int(loc[i]), "Longest Subsequence Length"])
                 df.loc[1 + int(loc[i]), "Longest Subsequence Length"] = max(
                     int(temp_ct), df.loc[1 + int(loc[i]), "Longest Subsequence Length"])
                 temp_ct = int(0)
 
+    for i in range(-4, 5):
+        print("running at: ", i)
+        if i == 0:
+            continue
+        temp_ct = int(0)
+        for j in range(29744):
+            if df.at[j, 'Octant'] == i:
+                temp_ct += 1
+            else:
+                if temp_ct == df.loc[1 + int(loc[i]), "Longest Subsequence Length"]:
+                    df.at[1 + int(loc[i]), "count"] += 1
+                temp_ct = int(0)
 
     if Path("put_octant_longest_subsequence.xlsx").exists():
         os.remove("put_octant_longest_subsequence.xlsx")
