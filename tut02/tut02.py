@@ -6,8 +6,10 @@ from pathlib import Path
 # the following part is copied from the previous tutorial work i.e. tut01: 
 def octant_transition_count(mod=5000):
     ###Code
-    
-    df = pd.read_excel(r'C:\Users\harsh\Documents\GitHub\2001CE24_2022\tut02\input_octant_transition_identify.xlsx')
+    try:
+        df = pd.read_excel(r'input_octant_transition_identify.xlsx')
+    except:
+        print("Error: check if file name is correct, or input file is provided")
     df['U Avg']=''
     df['V Avg']=''
     df['W Avg']=''
@@ -46,7 +48,6 @@ def octant_transition_count(mod=5000):
     
     df["User Activity"] = ""
     df.at[2, "User Activity"] = "User Input->"
-    mod = 6000
     df["Octant ID"] = ''
     df.at[1, "Octant ID"] = "Overall Count"
     df.at[2, "Octant ID"] = f"mod {mod}"
@@ -94,8 +95,8 @@ def octant_transition_count(mod=5000):
 # this function takes start, end (integral values for a specific mod range) and row, col integral values for uppermost left
 # end of the table that solves a part of the problem
 
-    def trans(st, en, row, col):
-        df.iloc[row, col] = "Mod Transition Count"
+    def trans(st, en, row, col, str="Mod Transition Count"):
+        df.iloc[row, col] = str
         df.iloc[row+1, col] = f'{st} - {en}'
         df.iloc[row+2, col] = "Count"
         df.iloc[row+1, col+1] = "To"
@@ -155,10 +156,11 @@ def octant_transition_count(mod=5000):
             en = 29744
         row = row + 13
     
-    trans(0, sz-1, rowMax + 5, 12)
+    trans(0, sz-1, rowMax + 5, 12, "Overall Transition Count")
 
-
-    if Path("octant_output22.csv").exists():
-        os.remove("octant_output22.csv")
-    df.to_csv('octant_output.csv')
-octant_transition_count(5000)
+    if Path("output_octant_transition_identify.xlsx").exists():
+        os.remove("output_octant_transition_identify.xlsx")
+    df.to_excel('output_octant_transition_identify.xlsx')
+    # print("code ran!")
+mod = 5000
+octant_transition_count(mod)
