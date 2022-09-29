@@ -48,6 +48,8 @@ def octant_longest_subsequence_count(mod=5000):
             df.at[i, "Octant"] = 4
         if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
             df.at[i, "Octant"] = -4
+    
+    # what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_count():
 
     df['Count'] = ''
     df["Longest Subsequence Length"] = ''
@@ -56,6 +58,11 @@ def octant_longest_subsequence_count(mod=5000):
     for i in range(1, 9):
         df.at[i, 'Count'] = int(mp[i])
 
+    ct = {1: 0, -1: 0, 2: 0, -2: 0, 3: 0, -3: 0, 4: 0, -4: 0}
+    loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
+    ct_count = {1: 0, -1: 0, 2: 0, -2: 0, 3: 0, -3: 0, 4: 0, -4: 0}
+    for i in range(1, 9):
+        df.loc[i, "Longest Subsequence Length"] = int(0)
+        df.loc[i, "count"] = int(0)
     
-
 octant_longest_subsequence_count()
