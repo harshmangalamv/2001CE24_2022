@@ -64,5 +64,27 @@ def octant_longest_subsequence_count(mod=5000):
     for i in range(1, 9):
         df.loc[i, "Longest Subsequence Length"] = int(0)
         df.loc[i, "count"] = int(0)
-    
+    for i in range(-4, 5):
+        print("running at: ", i)
+        if i == 0:
+            continue
+        temp_ct = int(0)
+        for j in range(29744):
+            if df.at[j, 'Octant'] == i:
+                temp_ct += 1
+            else:
+                if df.at[1 + int(loc[i]), "Longest Subsequence Length"] == temp_ct:
+                    df.at[1 + int(loc[i]), "count"] += 1
+                # print(temp_ct, " ",
+                #       df.loc[1 + int(loc[i]), "Longest Subsequence Length"])
+                df.loc[1 + int(loc[i]), "Longest Subsequence Length"] = max(
+                    int(temp_ct), df.loc[1 + int(loc[i]), "Longest Subsequence Length"])
+                temp_ct = int(0)
+
+
+    if Path("put_octant_longest_subsequence.xlsx").exists():
+        os.remove("put_octant_longest_subsequence.xlsx")
+    df.to_excel('put_octant_longest_subsequence.xlsx')
+    print(df.head)
+
 octant_longest_subsequence_count()
