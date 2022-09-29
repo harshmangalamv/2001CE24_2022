@@ -49,50 +49,13 @@ def octant_longest_subsequence_count(mod=5000):
         if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
             df.at[i, "Octant"] = -4
 
-    df["User Activity"] = ""
-    df.at[2, "User Activity"] = "User Input->"
-    df["Octant ID"] = ''
-    df.at[1, "Octant ID"] = "Overall Count"
-    df.at[2, "Octant ID"] = f"mod {mod}"
+    df['Count'] = ''
+    df["Longest Subsequence Length"] = ''
+    df["count"] = ''
+    mp = {1: 1, 2: -1, 3: 2, 4: -2, 5: 3, 6: -3, 7: 4, 8: -4}
+    for i in range(1, 9):
+        df.at[i, 'Count'] = int(mp[i])
 
-    mn = 0
-    mx = mod - 1
-    rowMax = sz // mod
-    for i in range(3, rowMax + 4):
-        if i is rowMax + 3:
-            mx = sz - 1
-        df.at[i, "Octant ID"] = f"{mn} - {mx}"
-        mn = mn + mod
-        mx = mx + mod
-
-    mn = 0
-
-    mx = mod - 1
-    for row in range(3, rowMax + 4):
-        df = df.fillna(0)
-        freq = {}
-        for i in range(mn, mx):
-            if(i >= 29745):
-                break
-            if(df.at[i, "Octant"] in freq):
-                freq[df.at[i, "Octant"]] = freq[df.at[i, "Octant"]] + 1
-            else:
-                freq[df.at[i, "Octant"]] = 1
-
-        for key, value in freq.items():
-            df = df.fillna('')
-
-            df.at[row, key] = int(value)
-
-            if(df.at[1, key] == ''):
-                df.at[1, key] = 0
-            df = df.fillna(0)
-            df.at[1, key] = int(df.at[1, key]) + int(value)
-
-    mn = mn + mod
-    mx = mx + mod
-
-    # what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_count():
     
 
 octant_longest_subsequence_count()
