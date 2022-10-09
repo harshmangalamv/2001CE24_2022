@@ -56,9 +56,45 @@ def octant_longest_subsequence_count_with_range():
       if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
           df.at[i, "Octant"] = -4
 
-  # what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_count():
 
   print("runs2")
+
+# what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_with_range():
+# initializing required column headers
+  df['Count'] = ''
+  df["Longest Subsequence Length"] = ''
+  df["count"] = ''
+  mp = {1: 1, 2: -1, 3: 2, 4: -2, 5: 3, 6: -3, 7: 4, 8: -4}
+  for i in range(1, 9):
+      df.at[i, 'Count'] = int(mp[i])
+
+  # loc dictionary would help telling intergral coordintes required for calculation pruposes
+  loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
+  # initiating "Longest Subsequence Length" and "count" columns with 0s
+  for i in range(1, 9):
+      df.loc[i, "Longest Subsequence Length"] = int(0)
+      df.loc[i, "count"] = int(0)
+
+# calculating for longest subsequnce length
+  # i is for octant values, j runs over all rows
+  # if df.at[j, 'Octant'] matches with i ie the "octant" number, increment, else update
+  # longest subsequence length and reset the corresponding count stored as temp_ct
+  for i in range(-4, 5):
+      print("runs ", i)
+
+      if i == 0:
+          continue
+      temp_ct = int(0)
+      for j in range(29744):
+          if df.at[j, 'Octant'] == i:
+              temp_ct += 1
+          else:
+              df.loc[1 + int(loc[i]), "Longest Subsequence Length"] = max(
+                  int(temp_ct), df.loc[1 + int(loc[i]), "Longest Subsequence Length"])
+              temp_ct = int(0)
+
+  print("runs3")
+  store = [[], [], [], [], [], [], [], []] # stores the last time stamp for longest sequence
 
 octant_longest_subsequence_count_with_range()
 
