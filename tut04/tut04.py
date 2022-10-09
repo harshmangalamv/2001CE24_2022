@@ -8,15 +8,13 @@ start_time = datetime.now()
 print("runs")
 
 #Help https://youtu.be/H37f_x4wAC0
-
-
 def octant_longest_subsequence_count_with_range():
   ###Code
   # df
-  # try:
-  df = pd.read_excel(r'input_octant_longest_subsequence_with_range.xlsx')
-  # except:
-  #     print("Error: check if file name is correct, or input file is provided")
+  try:
+    df = pd.read_excel(r'input_octant_longest_subsequence_with_range.xlsx')
+  except:
+    print("Error: check if file name is correct, or input file is provided")
   df['U Avg'] = ''
   df['V Avg'] = ''
   df['W Avg'] = ''
@@ -56,7 +54,6 @@ def octant_longest_subsequence_count_with_range():
       if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
           df.at[i, "Octant"] = -4
 
-
   print("runs2")
 
 # what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_with_range():
@@ -66,14 +63,14 @@ def octant_longest_subsequence_count_with_range():
   df["count"] = ''
   mp = {1: 1, 2: -1, 3: 2, 4: -2, 5: 3, 6: -3, 7: 4, 8: -4}
   for i in range(1, 9):
-      df.at[i, 'Count'] = int(mp[i])
+    df.at[i, 'Count'] = int(mp[i])
 
   # loc dictionary would help telling intergral coordintes required for calculation pruposes
   loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
   # initiating "Longest Subsequence Length" and "count" columns with 0s
   for i in range(1, 9):
-      df.loc[i, "Longest Subsequence Length"] = int(0)
-      df.loc[i, "count"] = int(0)
+    df.loc[i, "Longest Subsequence Length"] = int(0)
+    df.loc[i, "count"] = int(0)
 
 # calculating for longest subsequnce length
   # i is for octant values, j runs over all rows
@@ -81,7 +78,6 @@ def octant_longest_subsequence_count_with_range():
   # longest subsequence length and reset the corresponding count stored as temp_ct
   for i in range(-4, 5):
       print("runs ", i)
-
       if i == 0:
           continue
       temp_ct = int(0)
@@ -119,8 +115,6 @@ def octant_longest_subsequence_count_with_range():
 
   row = 1
   for i in range(1, 9):
-      # if i is 0:
-      #   continue
       df.loc[row, "Octant."] = mp[i]
       print(df.at[loc[mp[i]]+2, "Longest Subsequence Length"])
       df.loc[row, "Longest Subsequence Length."] = df.at[int(
@@ -134,14 +128,14 @@ def octant_longest_subsequence_count_with_range():
           df.loc[row + j, "Longest Subsequence Length."] = store[loc[mp[i]]][j - 1] - \
               (int(df.at[int(loc[mp[i]])+1, "Longest Subsequence Length"]) - 1)*0.01
           df.loc[row + j, "Count."] = store[loc[mp[i]]][j - 1]
-#           row+=1
+
       row += (len(store[loc[mp[i]]]) + 1)
 
   print("runs4")
 
-  if Path("output_octant_longest_subsequence.xlsx").exists():
-    os.remove("output_octant_longest_subsequence.xlsx")
-  df.to_excel('output_octant_longest_subsequence.xlsx')
+  if Path("output_octant_longest_subsequence_with_range.xlsx").exists():
+    os.remove("output_octant_longest_subsequence_with_range.xlsx")
+  df.to_excel("output_octant_longest_subsequence_with_range.xlsx")
   print(df)
 
 octant_longest_subsequence_count_with_range()
