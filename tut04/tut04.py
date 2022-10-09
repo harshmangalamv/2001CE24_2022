@@ -38,6 +38,28 @@ def octant_longest_subsequence_count_with_range():
 
   print("runs1")
 
+  for i in range(sz):
+      if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+          df.at[i, "Octant"] = 1
+      if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+          df.at[i, "Octant"] = -1
+      if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+          df.at[i, "Octant"] = 2
+      if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+          df.at[i, "Octant"] = -2
+      if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+          df.at[i, "Octant"] = 3
+      if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+          df.at[i, "Octant"] = -3
+      if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+          df.at[i, "Octant"] = 4
+      if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+          df.at[i, "Octant"] = -4
+
+  # what follows from here onwards is the major part that solves the problem of octant_longest_subsequence_count():
+
+  print("runs2")
+
 octant_longest_subsequence_count_with_range()
 
 
