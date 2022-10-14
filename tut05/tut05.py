@@ -103,7 +103,12 @@ def octant_range_names(mod=5000):
     
     octant_name_id_mapping = {"1":"Internal outward interaction", "-1":"External outward interaction", "2":"External Ejection", "-2":"Internal Ejection", "3":"External inward interaction", "-3":"Internal inward interaction", "4":"Internal sweep", "-4":"External sweep"}
 
-
+    id_oct = {0:1, 1:-1, 2:2, 3:-2, 4:3, 5:-3, 6:4, 7:-4}
+    
+    for i in range(8):
+        df.at[0,f"Octant {id_oct[i]}"] = f"Rank {i+1}"
+#     df.at[0, "Rank1 Octant ID"] = ''
+#     df.at[0, "Rank1 Octant Name"] = ''
 
 
 mod=5000 
