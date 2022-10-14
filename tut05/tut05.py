@@ -124,10 +124,22 @@ def octant_range_names(mod=5000):
             df.at[j, f"Octant {d2[i]}"] = i+1
         df.at[j, "Rank1 Octant ID"] = d2[0]
         df.at[j, "Rank1 Octant Name"] = octant_name_id_mapping[f"{d2[0]}"]
+    ro = rowMax+7
+    df.at[ro, "Octant 2"] = "Octant ID"
+    df.at[ro, "Octant -2"] = "Octant Name"
+    df.at[ro, "Octant 3"] = "Count of Rank 1 Mod Values"
+    for i in range(ro+1, ro+9):
+        df.at[i, "Octant 2"] = id_oct[i-ro-1]
+        df.at[i, "Octant -2"] = octant_name_id_mapping[f"{id_oct[i-ro-1]}"]
+        df.at[i, "Octant 3"] = int(0)
+    
+    oct_id = {1:0, -1:1, 2:2, -2:3, 3:4, -3:5, 4:6, -4:7}
+    for i in range(3, rowMax+4):
+        df.at[ro+1+oct_id[df.at[i, "Rank1 Octant ID"]], "Octant 3"] += 1
 
-    if Path("try_out.xlsx").exists():
-        os.remove("try_out.xlsx")
-    df.to_excel("try_out.xlsx")
+    if Path("octant_output_ranking_excel.xlsx").exists():
+        os.remove("octant_output_ranking_excel.xlsx")
+    df.to_excel("octant_output_ranking_excel.xlsx")
     
 mod=5000 
 octant_range_names(mod)
