@@ -125,11 +125,12 @@ def octant_range_names(mod=5000):
         df.at[j, "Rank1 Octant ID"] = d2[0]
         df.at[j, "Rank1 Octant Name"] = octant_name_id_mapping[f"{d2[0]}"]
 
-
+    if Path("try_out.xlsx").exists():
+        os.remove("try_out.xlsx")
+    df.to_excel("try_out.xlsx")
+    
 mod=5000 
 octant_range_names(mod)
-
-
 
 #This shall be the last lines of the code.
 end_time = datetime.now()
