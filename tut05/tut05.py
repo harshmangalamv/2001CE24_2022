@@ -110,6 +110,21 @@ def octant_range_names(mod=5000):
 #     df.at[0, "Rank1 Octant ID"] = ''
 #     df.at[0, "Rank1 Octant Name"] = ''
 
+    for j in range(1, rowMax+4):
+        store = {}
+        if j == 2:
+            continue
+        for i in range(8):
+            store[df.at[j, id_oct[i]]] = id_oct[i]
+        store = sorted(store.items())
+#         print(store)
+        d2 = [item[1] for item in store]
+
+        for i in range(8):
+            df.at[j, f"Octant {d2[i]}"] = i+1
+        df.at[j, "Rank1 Octant ID"] = d2[0]
+        df.at[j, "Rank1 Octant Name"] = octant_name_id_mapping[f"{d2[0]}"]
+
 
 mod=5000 
 octant_range_names(mod)
