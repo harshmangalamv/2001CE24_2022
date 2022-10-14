@@ -7,7 +7,10 @@ start_time = datetime.now()
 
 #Help https://youtu.be/N6PBd4XdnEw
 def octant_range_names(mod=5000):
-    df = pd.read_excel("octant_input.xlsx")
+    try:
+        df = pd.read_excel("octant_input.xlsx")
+    except:
+        print("Error: check if file name is correct, or input file is provided")
 
     # creating and populating colums that store Avg values
     df.at[0, "U Avg"] = df["U"].mean()
@@ -104,12 +107,16 @@ def octant_range_names(mod=5000):
     octant_name_id_mapping = {"1":"Internal outward interaction", "-1":"External outward interaction", "2":"External Ejection", "-2":"Internal Ejection", "3":"External inward interaction", "-3":"Internal inward interaction", "4":"Internal sweep", "-4":"External sweep"}
 
     id_oct = {0:1, 1:-1, 2:2, 3:-2, 4:3, 5:-3, 6:4, 7:-4}
-    
+    # Rank numbers are placed at their positions
     for i in range(8):
         df.at[0,f"Octant {id_oct[i]}"] = f"Rank {i+1}"
-#     df.at[0, "Rank1 Octant ID"] = ''
-#     df.at[0, "Rank1 Octant Name"] = ''
 
+    # looping over all rows -> j, from 1st row(0-indexed) to last row ie rowMax+3
+    # for every row, "store" stores the corresponding counts and octant number as pairs
+    # then "store" is sorted, reversed, and the list "d2" stores the second elements 
+    # d2 contains the octant numbers in required rank order
+    # next section fills in the values in their respective places
+    
     for j in range(1, rowMax+4):
         store = {}
         if j == 2:
@@ -124,6 +131,14 @@ def octant_range_names(mod=5000):
             df.at[j, f"Octant {d2[i]}"] = i+1
         df.at[j, "Rank1 Octant ID"] = d2[0]
         df.at[j, "Rank1 Octant Name"] = octant_name_id_mapping[f"{d2[0]}"]
+
+    # ro stores starting row number for the part that shows "Count of Rank 1 Mod Values" section
+    # headers are initialized
+    # then, for loop iterating over ro+1 to ro+9 fills in the count corresponding to octant ID and Octant Names
+    # "Octant 3" row is filled all 0 firstly in "ro+1, ro+9" range
+    # oct_id dict would help in getting the row numbers in next for loop work
+    # We increase the count against corresponding "Octant ID"'s "Count of Rank 1 Mod Values" whenever their is a detection of the Octant being 1 ranked in "Rank1 OctantID" row
+     
     ro = rowMax+7
     df.at[ro, "Octant 2"] = "Octant ID"
     df.at[ro, "Octant -2"] = "Octant Name"
