@@ -388,7 +388,7 @@ def scorecard():
 	txts = ''''''
 	# Pak Innings
 	txts += (f"{'India won by 5 wkts': <40}\n\n")
-	txts += (f"{'Pakistan Innings': <25}{'': <45}{runs_pk:>10}-{wkts_p}({ov_pk} Ov)\n")
+	txts += (f"{'Pakistan Innings': <25}{'': <45}{runs_pk:>15}-{wkts_p}({ov_pk} Ov)\n")
 	txts += (f"{'Batter': <25}{'': <40}{'R': ^6}{'B': ^6}{'4s': ^6}{'6s': ^6}{'SR': ^10}\n")
 
 	for i in range(11):
@@ -421,7 +421,7 @@ def scorecard():
 	
 	
 	# India innings
-	txts += (f"{'India Innings': <25}{'': <45}{runs_i:>10}-{wkts_i}({ov_i} Ov)\n")
+	txts += (f"{'India Innings': <25}{'': <45}{runs_i:>15}-{wkts_i}({ov_i} Ov)\n")
 	txts += (f"{'Batter': <25}{'': <40}{'R': ^6}{'B': ^6}{'4s': ^6}{'6s': ^6}{'SR': ^10}\n")
 
 	for i in range(11):

@@ -1,6 +1,6 @@
 India won by 5 wkts                     
 
-Pakistan Innings                                                             147-10(19.5 Ov)
+Pakistan Innings                                                                  147-10(19.5 Ov)
 Batter                                                             R     B     4s    6s      SR    
 Rizwan                   c by Avesh Khan b Hardik Pandya           43    42    4     1     102.38  
 Babar Azam               c by Arshdeep Singh b Bhuvneshwar         10    9     2     0     111.11  
@@ -30,7 +30,7 @@ Jadeja                            2         0        12         0         0     
 Powerplays                                               Overs                             Runs 
 Mandatory                                                0.1-6                               43 
 
-India Innings                                                                148-5(19.4 Ov)
+India Innings                                                                     148-5(19.4 Ov)
 Batter                                                             R     B     4s    6s      SR    
 Rohit                    c by Iftikhar Ahmed b Mohammad Nawaz      12    17    0     1     70.59   
 Rahul                    b Naseem Shah                             0     1     0     0      0.0    
