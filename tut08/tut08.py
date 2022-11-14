@@ -258,6 +258,132 @@ def scorecard():
 	for batsman in team_pak:
 		runs_pk += run_bat_pak[batsman]
 	runs_pk += pk_sc
+		
+	m = 0
+	fall_in = ''''''
+	for para in content_in:
+		if(para == ""):
+			continue
+		m = re.search(r'[0-9]+\.[0-9]', para)
+		b_b1 = re.search(r'([A-Z][a-z]*)[\s-](to)\s([A-Z][a-z]*)', para)
+		b_b2 = re.search(r'([A-Z][a-z]*)[\s-]([A-Z][a-z]*)\s(to)\s([A-Z][a-z]*)', para)
+		b_b3 = re.search(r'([A-Z][a-z]*)[\s-](to)\s([A-Z][a-z]*)\s([A-Z][a-z]*)', para)
+		b_b4 = re.search(r'([A-Z][a-z]*)[\s-]([A-Z][a-z]*)+\s(to)\s([A-Z][a-z]*)\s([A-Z][a-z]*)', para)
+		
+		if(b_b1):
+			b_b = b_b1
+		if(b_b2):
+			b_b = b_b2
+		if(b_b3):
+			b_b = b_b3
+		if(b_b4):
+			b_b = b_b4
+		b_ = b_b[0].split("to") 
+		bowler = b_[0].strip()
+		batsman = b_[1].strip()
+
+		remark = re.search(f"{batsman},\s((no|1|2|3|4)\s(run|runs))", para)  
+		if remark:
+			skore = (remark[0].split(','))[1].strip()
+			if skore == "1 run":
+				run_bat_in[batsman] = run_bat_in[batsman] + int(1); run_pk[bowler] += int(1); cur_run_in += int(1)
+			elif skore == "2 run":
+				run_bat_in[batsman] = run_bat_in[batsman] + int(2); run_pk[bowler] += int(2); cur_run_in += int(2)
+			elif skore == "3 run":
+				run_bat_in[batsman] = run_bat_in[batsman] + int(3); run_pk[bowler] += int(3); cur_run_in += int(3)
+			elif skore == "4 run":
+				run_bat_in[batsman] = run_bat_in[batsman] + int(4); run_pk[bowler] += int(4); cur_run_in += int(4)
+			balls_in[batsman] += int(1); over_pk[bowler] += int(1)
+			# print(skore)
+		else:
+			remark = re.search(f"{batsman},\s(SIX|FOUR)", para)
+			if remark:
+				skore = (remark[0].split(','))[1].strip()
+				if skore == "SIX":
+					run_bat_in[batsman] = run_bat_in[batsman] + int(6); run_pk[bowler] += int(6); cur_run_in += int(6)
+					six_bat_in[batsman] += int(1)
+				if skore == "FOUR":
+					run_bat_in[batsman] = run_bat_in[batsman] + int(4); run_pk[bowler] += int(4); cur_run_in += int(4)
+					fours_bat_in[batsman] += int(1)
+				balls_in[batsman] += int(1); over_pk[bowler] += int(1)
+			else:
+				remark = re.search(f"{batsman},\s(out Bowled|out Lbw)", para) 
+				if remark:
+					retby_in[batsman] = f"b {bowler}"
+					wkts_i += int(1); wicket_pk[bowler] += int(1)
+					balls_in[batsman] += int(1); over_pk[bowler] += int(1)
+					fall_in += (f"{cur_run_in}-{wkts_i}({batsman},{m[0]}), ")
+				else:
+					remark = re.search(f"{batsman},\swide", para) 
+					if remark:
+						i_sc += int(1)
+						w_i += int(1); wd_pk[bowler] += int(1)
+						cur_run_in += int(1); run_pk[bowler] += int(1)
+					else:
+						remark = re.search(f"{batsman},\s[2-9]\swides", para)
+						if remark:
+							skore = remark[0].split(",")[1].strip()
+							if skore == "2 wides":
+								i_sc += int(2); cur_run_in += int(2); run_pk[bowler] += int(2)
+								w_i += int(2); wd_pk[bowler] += int(2)
+							if skore == "3 wides":
+								i_sc += int(3); cur_run_in += int(3); run_pk[bowler] += int(3)
+								w_i += int(3); wd_pk[bowler] += int(3)
+						else:
+							remark = re.search(f"{batsman},\sbyes", para)
+							if remark:
+								b_i += int(1)
+								i_sc += int(1); cur_run_in += int(1); run_pk[bowler] += int(1); over_pk[bowler] += int(1)
+							else:
+								remark = re.search(f"{batsman},\sleg\sbyes,\s((1\srun)|[2-4]runs|FOUR),", para)
+								if remark:
+									typ = (remark[0].split(','))[1].strip()
+									skore = ((remark[0].split(',')[2]).strip()); over_pk[bowler] += int(1)
+									if typ == "byes":                                    
+										if skore == "FOUR":
+											i_sc += int(4); cur_run_in += int(4); run_pk[bowler] += int(4)
+											b_i += int(4)
+										if skore == "1 run":
+											i_sc += int(1); cur_run_in += int(1); run_pk[bowler] += int(1)
+											b_i += int(1)
+										if skore == "2 run":
+											i_sc += int(2); cur_run_in += int(2); run_pk[bowler] += int(2)
+											b_i += int(2)
+										if skore == "3 run":
+											i_sc += int(3); cur_run_in += int(3); run_pk[bowler] += int(3)
+											b_i += int(3)
+									else:                                   
+										if skore == "FOUR":
+											i_sc += int(4); cur_run_in += int(4); run_pk[bowler] += int(4)
+											lb_i += int(4)    
+										if skore == "1 run":
+											i_sc += int(1); cur_run_in += int(1); run_pk[bowler] += int(1)
+											lb_i += int(1)
+										if skore == "2 run":
+											i_sc += int(2); cur_run_in += int(2); run_pk[bowler] += int(2)
+											lb_i += int(2)    
+										if skore == "3 run":
+											i_sc += int(3); cur_run_in += int(3); run_pk[bowler] += int(3)
+											lb_i += int(3)    
+								else:
+									remark = re.search(f"{batsman},\s(out Caught by)(\s\w[a-z]*)*", para)
+									if remark:
+										act = (remark[0].split(","))[1].split("by")[1].strip()
+										wkts_i += int(1); wicket_pk[bowler] += int(1)
+										retby_in[batsman] = f"c by {act} b {bowler}"; fall_in += (f"{cur_run_in}-{wkts_i}({batsman},{m[0]}), ")
+										balls_in[batsman] += int(1); over_pk[bowler] += int(1)
+									else:
+										print(f"this {m[0]}")
+										print(remark[0])
+		if m[0] == "5.6":
+			pwr_run_in = cur_run_in
+	ov_i = m[0]
+	for batsman in team_in:
+		runs_i += run_bat_in[batsman]
+	runs_i += i_sc                          
+
+
+
 
 
 
