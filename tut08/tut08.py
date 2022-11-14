@@ -5,9 +5,9 @@ import math
 from datetime import datetime
 start_time = datetime.now()
 
-f_in = open(r'C:\Users\harsh\Documents\GitHub\trash_lol\tut08\india_inns2.txt', 'r')
-f_pk = open(r'C:\Users\harsh\Documents\GitHub\trash_lol\tut08\pak_inns1.txt', 'r')
-op = open(r'C:\Users\harsh\Documents\GitHub\trash_lol\tut08\Scorecard.txt', 'w')
+f_in = open(r'india_inns2.txt', 'r')
+f_pk = open(r'pak_inns1.txt', 'r')
+op = open(r'Scorecard.txt', 'w')
 
 # Harsh MangalM Verma
 # 2001CE24
@@ -387,17 +387,17 @@ def scorecard():
 		
 	txts = ''''''
 	# Pak Innings
-	txts += (f"{'India won by 5 wkts': <40}\n")
+	txts += (f"{'India won by 5 wkts': <40}\n\n")
 	txts += (f"{'Pakistan Innings': <25}{'': <45}{runs_pk:>10}-{wkts_p}({ov_pk} Ov)\n")
-	txts += (f"{'Batter': <25}{'': <40}{'R': ^5}{'B': ^5}{'4s': ^5}{'6s': ^5}{'SR': ^10}\n")
+	txts += (f"{'Batter': <25}{'': <40}{'R': ^6}{'B': ^6}{'4s': ^6}{'6s': ^6}{'SR': ^10}\n")
 
 	for i in range(11):
 		if balls_pak[team_pak[i]] != 0:
 			sr = round((run_bat_pak[team_pak[i]]/balls_pak[team_pak[i]])*100, 2)        
-			txts += ((f"{team_pak[i]: <25}{retby_pak[team_pak[i]]: <40}{run_bat_pak[team_pak[i]]: ^5}{balls_pak[team_pak[i]]: ^5}{fours_bat_pak[team_pak[i]]: ^5}{six_bat_pak[team_pak[i]]: ^5}{sr: ^10}\n"))
+			txts += ((f"{team_pak[i]: <25}{retby_pak[team_pak[i]]: <40}{run_bat_pak[team_pak[i]]: ^6}{balls_pak[team_pak[i]]: ^6}{fours_bat_pak[team_pak[i]]: ^6}{six_bat_pak[team_pak[i]]: ^6}{sr: ^10}\n"))
 
-	txts += (f"{'Extras': <25}{'': <40}{pk_sc}(b {b_p}, lb {lb_p}, w {w_p}, nb {nb_p}, p {p_p})\n")
-	txts += (f"{'Total':<25}{'': <40}{runs_pk}({wkts_p} wkts, {ov_pk} Ov)\n")
+	txts += (f"{'Extras': <25}{'': <42}{pk_sc}(b {b_p}, lb {lb_p}, w {w_p}, nb {nb_p}, p {p_p})\n")
+	txts += (f"{'Total':<25}{'': <42}{runs_pk}({wkts_p} wkts, {ov_pk} Ov)\n")
 	part =''''''
 	for batsman in team_pak:
 		if balls_pak[batsman] == 0:
@@ -416,21 +416,21 @@ def scorecard():
 			eco_cur = round(run_in[bowler_in[i]]/(math.ceil(over)), 2)
 		txts += (f"{bowler_in[i]:<25}{over:>10}{maiden_in[bowler_in[i]]:>10}{run_in[bowler_in[i]]:>10}{wicket_in[bowler_in[i]]:>10}{nb_in[bowler_in[i]]:>10}{wd_in[bowler_in[i]]:>10}{eco_cur:>10}\n")
 	txts += (f"{'Powerplays': <40}{'Overs': ^40}{'Runs':>15} \n")
-	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_pk: >15} \n")        
+	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_pk: >15} \n\n")        
 
 	
 	
 	# India innings
 	txts += (f"{'India Innings': <25}{'': <45}{runs_i:>10}-{wkts_i}({ov_i} Ov)\n")
-	txts += (f"{'Batter': <25}{'': <40}{'R': ^5}{'B': ^5}{'4s': ^5}{'6s': ^5}{'SR': ^10}\n")
+	txts += (f"{'Batter': <25}{'': <40}{'R': ^6}{'B': ^6}{'4s': ^6}{'6s': ^6}{'SR': ^10}\n")
 
 	for i in range(11):
 		if balls_in[team_in[i]] != 0:
 			sr = round((run_bat_in[team_in[i]]/balls_in[team_in[i]])*100, 2)        
-			txts+=((f"{team_in[i]: <25}{retby_in[team_in[i]]: <40}{run_bat_in[team_in[i]]: ^5}{balls_in[team_in[i]]: ^5}{fours_bat_in[team_in[i]]: ^5}{six_bat_in[team_in[i]]: ^5}{sr: ^10}\n"))
+			txts+=((f"{team_in[i]: <25}{retby_in[team_in[i]]: <40}{run_bat_in[team_in[i]]: ^6}{balls_in[team_in[i]]: ^6}{fours_bat_in[team_in[i]]: ^6}{six_bat_in[team_in[i]]: ^6}{sr: ^10}\n"))
 
-	txts += (f"{'Extras': <25}{'': <40}{i_sc}(b {b_i}, lb {lb_i}, w {w_i}, nb {nb_i}, p {p_i})\n")
-	txts += (f"{'Total':<25}{'': <40}{runs_i}({wkts_i} wkts, {ov_i} Ov)\n")
+	txts += (f"{'Extras': <25}{'': <42}{i_sc}(b {b_i}, lb {lb_i}, w {w_i}, nb {nb_i}, p {p_i})\n")
+	txts += (f"{'Total':<25}{'': <42}{runs_i}({wkts_i} wkts, {ov_i} Ov)\n")
 	part =''''''
 	for batsman in team_in:
 		if balls_in[batsman] == 0:
@@ -451,10 +451,9 @@ def scorecard():
 	txts += (f"{'Powerplays': <40}{'Overs': ^40}{'Runs':>15} \n")
 	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_in: >15} \n")
 			
-
-
-
-
+		
+	op.write(txts)
+	op.close()
 
 
 scorecard()
