@@ -416,7 +416,41 @@ def scorecard():
 			eco_cur = round(run_in[bowler_in[i]]/(math.ceil(over)), 2)
 		txts += (f"{bowler_in[i]:<25}{over:>10}{maiden_in[bowler_in[i]]:>10}{run_in[bowler_in[i]]:>10}{wicket_in[bowler_in[i]]:>10}{nb_in[bowler_in[i]]:>10}{wd_in[bowler_in[i]]:>10}{eco_cur:>10}\n")
 	txts += (f"{'Powerplays': <40}{'Overs': ^40}{'Runs':>15} \n")
-	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_pk: >15} \n")                 
+	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_pk: >15} \n")        
+
+	
+	
+	# India innings
+	txts += (f"{'India Innings': <25}{'': <45}{runs_i:>10}-{wkts_i}({ov_i} Ov)\n")
+	txts += (f"{'Batter': <25}{'': <40}{'R': ^5}{'B': ^5}{'4s': ^5}{'6s': ^5}{'SR': ^10}\n")
+
+	for i in range(11):
+		if balls_in[team_in[i]] != 0:
+			sr = round((run_bat_in[team_in[i]]/balls_in[team_in[i]])*100, 2)        
+			txts+=((f"{team_in[i]: <25}{retby_in[team_in[i]]: <40}{run_bat_in[team_in[i]]: ^5}{balls_in[team_in[i]]: ^5}{fours_bat_in[team_in[i]]: ^5}{six_bat_in[team_in[i]]: ^5}{sr: ^10}\n"))
+
+	txts += (f"{'Extras': <25}{'': <40}{i_sc}(b {b_i}, lb {lb_i}, w {w_i}, nb {nb_i}, p {p_i})\n")
+	txts += (f"{'Total':<25}{'': <40}{runs_i}({wkts_i} wkts, {ov_i} Ov)\n")
+	part =''''''
+	for batsman in team_in:
+		if balls_in[batsman] == 0:
+			part += (batsman)
+			part += " "
+	txts += (f"{'Did not Bat': <25} {part}\n")
+	txts += (f"{'Fall of wickets':<25}\n")
+	txts += (f"{fall_in}\n")
+	txts += (f"{'Bowler': <25}{'O':>10}{'M':>10}{'R':>10}{'W':>10}{'NB':>10}{'WD':>10}{'ECO':>10}\n")
+	# print(bowler_pak)
+	for i in range(len(bowler_pak)):
+		over = over_pk[bowler_pak[i]]//6
+		if 0.1*(over_pk[bowler_pak[i]]%6) != 0.0:
+			over += 0.1*(over_pk[bowler_pak[i]]%6)
+		if over != 0:
+			eco_cur = round(run_pk[bowler_pak[i]]/(math.ceil(over)), 2)
+		txts += (f"{bowler_pak[i]:<25}{over:>10}{maiden_pk[bowler_pak[i]]:>10}{run_pk[bowler_pak[i]]:>10}{wicket_pk[bowler_pak[i]]:>10}{nb_pk[bowler_pak[i]]:>10}{wd_pk[bowler_pak[i]]:>10}{eco_cur:>10}\n")
+	txts += (f"{'Powerplays': <40}{'Overs': ^40}{'Runs':>15} \n")
+	txts += (f"{'Mandatory': <40}{'0.1-6': ^40}{pwr_run_in: >15} \n")
+			
 
 
 
