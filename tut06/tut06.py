@@ -19,8 +19,8 @@ def findDay(date):
 
 def attendance_report():
 ###Code
-    df_reg_stud = pd.read_csv('tut06\input_registered_students.csv')
-    df_input_attend = pd.read_csv('tut06\input_attendance.csv')
+    df_reg_stud = pd.read_csv('input_registered_students.csv')
+    df_input_attend = pd.read_csv('input_attendance.csv')
 
     # (before running for updated attendance list, update this manunally) to store dates of lecture in yy-mm-dd
     lectureday = ['2022-07-28', '2022-08-01', '2022-08-04', '2022-08-08',
@@ -59,7 +59,7 @@ def attendance_report():
             hour = f[0]; minute = f[1]  
             if (findDay(u1) == 'Monday') or (findDay(u1) == 'Thursday'):# pruning dates only when classes were done
                 temp_list.append((p1))   
-        check="tut06/output/{}".format(roll)+'.xlsx'
+        check="output/{}".format(roll)+'.xlsx'
         if (os.path.exists("output")) == False:  # if path does not already exist then make a new directory
             os.mkdir("output")
         len_temp_list=len(temp_list)
@@ -78,6 +78,39 @@ def attendance_report():
                 if lectureday[j1]==r1:
                     list2.append(temp_list[k1])
 
+            ct=0
+            for y in range(len(list2)):
+                t=list2[y]
+                g1=t.split(" ")
+                g2=g1[0]
+                time=g1[1]
+                g=g2.split("-")
+                day1=g[0]#day of the date
+                month=g[1]#month of the date
+                year=g[2]#year of the date
+                if(time>=time1 and time<=time2):#if time is between 14:00:00 and 15:00:00
+                    ct+=1#increment count 
+            if_valid = 0; if_not_valid = 1; duplicate = 0 #count of duplicate attendance
+            if ct>=1 :
+                if_valid = 1
+                if_not_valid = 0  # if attedance was marked if_not_valid =0 i,e no absent for the day
+            if ct>1 :
+                duplicate=ct-1#count of duplicate = total count -1
+            totalcountofreal+=if_valid
+            temp.at[j1 + 1, 'Date'] = str(lectureday[j1])#pushing the required memebers correctly 
+            temp.at[j1+ 1, 'Total Attendance Count'] = ct; temp.at[j1 + 1, 'Real'] = if_valid; temp.at[j1+ 1, 'Duplicate'] = duplicate; temp.at[j1 + 1, 'Invalid'] = len(list2) - ct; temp.at[j1 + 1, 'Absent'] = if_not_valid
+            if(ct!=0):
+                df.at[i + 1, lectureday[j1]] = 'P'
+            else:
+                df.at[i+1,lectureday[j1]]='A'
+        df.at[i+1,'Actual Lecture Taken'] = count_of_total_classes_official; df.at[i+1, "Roll"] = roll; df.at[i + 1, 'Total Real'] = totalcountofreal
+        if len_temp_list == 0:
+                df.at[i + 1, 'Attendance %'] = 0
+        else:
+                df.at[i + 1, 'Attendance %'] = (round(totalcountofreal/ count_of_total_classes_official, 2)*100)
+        temp.to_excel(check,index=False)#converting the dataframe to excel 
+    df.to_excel('output/attendance_report_consolidated.xlsx')#converting data frame to excel
+
 
 
 attendance_report()
@@ -86,5 +119,5 @@ attendance_report()
 
 
 #This shall be the last lines of the code.
-end_time = datetime.now()
+end_time = datetime.datetime.now()
 print('Duration of Program Execution: {}'.format(end_time - start_time))
