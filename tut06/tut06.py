@@ -49,7 +49,35 @@ def attendance_report():
                 k = k + 1
         df_1['Dates'] = pd.to_datetime(df_1['Dates'], dayfirst=True)
 
-        
+        x1="14"; x2="15"
+        time1="14:00:00"; time2="15:00:00"
+        lenp=len(df_1['Dates'])
+        for r in range(lenp):
+            p1=df_1['Dates'][r]; p1=str(p1); y = p1.split(" ")
+            date1=y[0]; date1=str(date1); o=date1.split("-"); u1=o[2]+"/"+o[1] +"/"+o[0]
+            f=y[1].split(':') # splitting time
+            hour = f[0]; minute = f[1]  
+            if (findDay(u1) == 'Monday') or (findDay(u1) == 'Thursday'):# pruning dates only when classes were done
+                temp_list.append((p1))   
+        check="tut06/output/{}".format(roll)+'.xlsx'
+        if (os.path.exists("output")) == False:  # if path does not already exist then make a new directory
+            os.mkdir("output")
+        len_temp_list=len(temp_list)
+        temp=pd.read_excel(check)#reading data of excel file with pathname check
+        totalcountofreal=0#total real count 
+        temp.at[0,'Name']=name; temp.at[0,'Roll']=roll; df.at[i+1,'Name']=name
+        for j1 in range(totalday_count):
+            list2=[]
+            for k1 in range(len(temp_list)):
+                st1=temp_list[k1]
+                if(st1==""):
+                    continue
+
+                st2=st1.split(" ")
+                r1=st2[0] #r1 stores date of submission of attendance
+                if lectureday[j1]==r1:
+                    list2.append(temp_list[k1])
+
 
 
 attendance_report()
