@@ -39,6 +39,62 @@ def octant_identification(mod = 4000):
 
         df.at[0, "Octant"] = ''
 
+        # Populating the Octant column, that is created in first call itself, with corresponding row values of U' V' W'
+        for i in range(sz):
+            if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+                df.at[i, "Octant"] = 1
+            if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+                df.at[i, "Octant"] = -1
+            if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] >= 0):
+                df.at[i, "Octant"] = 2
+            if(df.at[i, "U'"] < 0 and df.at[i, "V'"] >= 0 and df.at[i, "W'"] < 0):
+                df.at[i, "Octant"] = -2
+            if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+                df.at[i, "Octant"] = 3
+            if(df.at[i, "U'"] < 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+                df.at[i, "Octant"] = -3
+            if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] >= 0):
+                df.at[i, "Octant"] = 4
+            if(df.at[i, "U'"] >= 0 and df.at[i, "V'"] < 0 and df.at[i, "W'"] < 0):
+                df.at[i, "Octant"] = -4
+
+
+        # df
+        # Creating a column named "User Activity" then placing "User Input" at its place 
+        # then creating and filling different values
+        df[''] = ''
+        df['mod1'] = ''
+        df.at[2, "mod1"] = f"mod: {mod}"
+
+        df["Overall Octant Count"] = ''
+        df.at[1, "Overall Octant Count"] = "Octant ID"
+        df.at[2, "Overall Octant Count"] = "Overall Count" 
+
+        mn = 0
+        mx = mod - 1
+        rowMax = sz // mod
+
+        # populating ranges of sizes mod starting from 0 to mod-1 till last interval max value hits df' max row value
+        for i in range(3, rowMax + 4):
+            if i is rowMax + 3:
+                mx = sz - 1
+            df.at[i, "Overall Octant Count"] = f"{mn} - {mx}" 
+            mn = mn + mod
+            mx = mx + mod
+        df["1"]=''; df["-1"]=''; df["2"]='';df["-2"]='';df["3"]=''; df["-3"]=""; df["4"]=""; df["-4"]='';
+        df["rank1"]=''; df["rank-1"]=''; df["rank2"]='';df["rank-2"]='';df["rank3"]=''; df["rank-3"]=""; df["rank4"]=""; df["rank-4"]='';
+        df["rank1id"] = ''; df["rank1idname"] = ''; df['   ']=''
+        mp = {1:1, 2:-1, 3:2, 4:-2, 5:3, 6:-3, 7:4, 8:-4}
+        for i in mp:
+            df.at[1, f"{mp[i]}"] = mp[i]
+            df.at[1, f"rank{mp[i]}"] = f"Rank of {mp[i]}"
+
+
+    #     # df.head(15)
+
+        mn = 0
+        mx = mod - 1
+
 
 #This shall be the last lines of the code.
 end_time = datetime.now()
