@@ -95,6 +95,90 @@ def octant_identification(mod = 4000):
         mn = 0
         mx = mod - 1
 
+    #     # for every range, iterating and storing count of octant values by using a map, later updating the overall count
+    #     # values of corresponding octant values in overall count row 
+        freq1 = {}
+        for row in range(3, rowMax + 4):
+            freq = {} # intiating freq map
+            pair_val_id = []
+            for i in range(mn, mx):
+                if(i >= sz):
+                    break
+                if(df.at[i, "Octant"] in freq):
+                    freq[df.at[i, "Octant"]] = freq[df.at[i, "Octant"]] + 1 # incrementing the key value for the key
+                else:
+                    freq[df.at[i, "Octant"]] = 1 # initiating the key if not present
+            freq = dict(sorted(freq.items(), key=lambda item: item[1]))
+            ct = 8
+            for i in freq:
+                if ct == 1:
+                    df.at[row, "rank1id"] = i
+                df.at[row, f"rank{i}"] = ct; ct -= 1
+
+
+            for i in mp:
+                try:
+                    df.at[row, f"{mp[i]}"] = freq[mp[i]]
+                    df.at[2, f"{mp[i]}"] += freq[mp[i]]
+                    freq1[mp[i]] = df.at[2, f"{mp[i]}"]
+                except:
+                    df.at[2, f"{mp[i]}"] = freq[mp[i]]
+
+
+            mn = mn + mod
+            mx = mx + mod
+        freq1 = dict(sorted(freq1.items(), key=lambda item: item[1]))
+        ct = 8
+        for i in freq1:
+            if ct == 1:
+                    df.at[2, "rank1id"] = i
+            df.at[2, f"rank{i}"] = ct; ct -= 1
+
+        df[''] = ''
+        df['frm'] = ''
+        df.at[2, "frm"] = "From"
+        df['Overall Transition Count'] = ''
+        df.at[1, "Overall Transition Count"] = "Octant #"
+        for i in range(0, 8):
+            df.at[i+2, "Overall Transition Count"] = mp[i+1]
+            df[f"{mp[i+1]}{mp[i+1]}"] = ''
+            df.at[1, f"{mp[i+1]}{mp[i+1]}"] = mp[i+1]
+    #     mp = {1:1, 2:-1, 3:2, 4:-2, 5:3, 6:-3, 7:4, 8:-4}
+        def trans(st, en, row, col, str="Mod Transition Count"):
+            df.iloc[row, col] = str
+            df.iloc[row+1, col] = f'{st} - {en}'
+            df.iloc[row+2, col] = "Octant #"
+            df.iloc[row+1, col+1] = "To"
+            df.iloc[row+3, col-1] = "From"
+
+            # preparing headers for transitions
+            # kindly NOTE_ THE TRANSITION HEADS IN MY OUTPUT ARE DIFFERENT, AS THEY NEED NOT NECESSARILY BE IN THE SAME ORDER AS GIVEN IN THE SAMPLE
+
+            for x in range(1, 9):
+#                 print(row + 2, f"{mp[x]}{mp[x]}")
+                df.at[row + 2,f"{mp[x]}{mp[x]}"] = mp[x]
+
+            for x in range(1, 9):
+                df.at[row+2+x, "Overall Transition Count"] = mp[x]
+
+            #   first stv, env collect transition "from" and "to" values, then their corresponding universal row and column values are computed
+            #   and stored int them only
+            #   then df.iat[stv, env], which tells the transition value corresponding to count of change from "stv" to "env", is ioncremented
+            #   once correspondingly
+    #         print("st: ", st, "en: ", en, "row: ", row, "col: ", col)
+            mpp = {1:1, -1:2, 2:3, -2:4, 3:5, -3:6, 4:7, -4:8}
+            for x in range(st, en + 1):
+    #             df.fillna(0)
+                if x == sz-1:
+                    break
+                stv = df.at[x, 'Octant']
+                env = df.at[x+1, 'Octant']
+                try:
+                    df.at[row+2+mpp[stv], f"{env}{env}" ] += 1
+                except:
+                    df.at[row+2+mpp[stv], f"{env}{env}"] = 1
+    #     trans(0, 4999, 14, 33)
+
 
 #This shall be the last lines of the code.
 end_time = datetime.now()
