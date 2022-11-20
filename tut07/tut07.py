@@ -25,6 +25,21 @@ def octant_identification(mod = 4000):
         sz = len(df["T"])
 
 
+        # this function calculates the differences required
+        def fun(a, b, c, sz):
+            for i in range(sz):
+                df.at[i, c] = df.at[i, a] - df.at[0, b]
+
+        # function calls for creating new columns that store, while calculating as per requirements at the same time
+        fun("U", "U Avg", "U'", sz)
+        fun("V", "V Avg", "V'", sz)
+        fun("W", "W Avg", "W'", sz)
+    #     df = df.fillna('')
+        # df
+
+        df.at[0, "Octant"] = ''
+
+
 #This shall be the last lines of the code.
 end_time = datetime.now()
 print('Duration of Program Execution: {}'.format(end_time - start_time))
