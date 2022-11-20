@@ -178,7 +178,70 @@ def octant_identification(mod = 4000):
                 except:
                     df.at[row+2+mpp[stv], f"{env}{env}"] = 1
     #     trans(0, 4999, 14, 33)
+        row = 14
+        col = 34
+        st = 0
+        en = mod - 1
+        num = sz//(mod) + 1
 
+    #     print("rowMax: ", rowMax, "st: ", st)
+        for i in range(num):
+            trans(st, en, row, col)
+            st = en + 1
+            en = en + mod
+            if en > sz:
+                en = sz
+            row = row + 14
+
+        trans(0, sz-1, 1 , 33, "Overall Transition Count")
+
+        df[' '] = ''
+        df['Longest Subsequence Length'] = ''
+        df.at[1, 'Longest Subsequence Length'] = "Octant #"
+        for i in range(1, 9):
+            df.at[i+1, 'Longest Subsequence Length'] = mp[i]
+        df['lsl'] = ''
+        df.at[1, 'lsl'] = 'Longest Subsequence Length'
+        df['countt'] = ''
+
+        # loc dictionary would help telling intergral coordintes required for calculation pruposes
+        loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
+        # initiating "Longest Subsequence Length" and "count" columns with 0s
+        df.at[1, 'countt'] = "Count"
+        for i in range(1, 9):
+            df.loc[i+1, 'lsl'] = int(0)
+            df.loc[i+1, "countt"] = int(0)
+
+
+
+
+        for i in range(-4, 5):
+        #   print("runs ", i)
+            if i == 0:
+                continue
+            temp_ct = int(0)
+            for j in range(sz):
+                if df.at[j, 'Octant'] == i:
+                  temp_ct += 1
+                else:
+                  df.at[45, "lsl"] = max(temp_ct, df.at[loc[i]+2, "lsl"])
+                  temp_ct = int(0)
+
+    #   print("runs3")
+        store = [[], [], [], [], [], [], [], []] # stores the last time stamp for longest sequence
+
+
+#         print(df.head(30)) # printing top 30 rows to review
+#         if Path("output/octant_output.xlsx").exists():
+#             os.remove("output/octant_output.xlsx")
+        df.to_excel(f'output/{file_name}_vel_octant_analysis_mod_{mod}.xlsx')
+        # this part exports df to an output file if not present, otherwise it first deletes it first to avoid overwriting errors i faced in my system 
+
+
+    #     print("mod: ", mod)
+
+mod = 5000
+octant_identification(mod)
 
 #This shall be the last lines of the code.
 end_time = datetime.now()
