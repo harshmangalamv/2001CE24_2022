@@ -212,9 +212,6 @@ def octant_identification(mod = 4000):
             df.loc[i+1, 'lsl'] = int(0)
             df.loc[i+1, "countt"] = int(0)
 
-
-
-
         for i in range(-4, 5):
         #   print("runs ", i)
             if i == 0:
@@ -224,19 +221,57 @@ def octant_identification(mod = 4000):
                 if df.at[j, 'Octant'] == i:
                   temp_ct += 1
                 else:
-                  df.at[45, "lsl"] = max(temp_ct, df.at[loc[i]+2, "lsl"])
+                  df.at[2+loc[i], "lsl"] = max(temp_ct, df.at[loc[i]+2, "lsl"])
                   temp_ct = int(0)
 
     #   print("runs3")
         store = [[], [], [], [], [], [], [], []] # stores the last time stamp for longest sequence
 
+        for i in range(-4, 5):
+    #   print("runs ", i)
+            if i == 0:
+                continue
+            temp_ct = int(0)
+            df.at[2 + int(loc[i]), "countt"] = 0
+            for j in range(sz):
+                if df.at[j, 'Octant'] == i:
+                    temp_ct += 1
+                else:
+                    if temp_ct == df.loc[2 + int(loc[i]), "lsl"]:
+                        df.at[2 + int(loc[i]), "countt"] += 1
+                        store[loc[i]].append(df.at[j, "T"])
+                    temp_ct = int(0)
 
-#         print(df.head(30)) # printing top 30 rows to review
-#         if Path("output/octant_output.xlsx").exists():
-#             os.remove("output/octant_output.xlsx")
+        df['     '] = ''
+        df['Longest Subsequence Length with Range'] = ''
+        df['lsl.'] = ''
+        df['Count.'] = ''
+        # Octant ###	Longest Subsequence Length	Count
+        df.at[1, 'Longest Subsequence Length with Range'] = "Octant ###"
+        df.at[1, 'lsl.'] = "Longest Subsequence Length"
+        df.at[1, 'Count.'] = "Count"
+        row = 1 # for traversing through rows
+        # mp = {1: 1, 2: -1, 3: 2, 4: -2, 5: 3, 6: -3, 7: 4, 8: -4}
+        # loc = {1: 0, -1: 1, 2: 2, -2: 3, 3: 4, -3: 5, 4: 6, -4: 7}
+
+        for i in range(1, 9):
+            df.loc[row+1, "Longest Subsequence Length with Range"] = mp[i]
+            #   print(df.at[loc[mp[i]]+2, "Longest Subsequence Length"])
+            df.loc[row+1, "lsl."] = df.at[int(loc[mp[i]])+2, "lsl"]
+            df.loc[row+1, "Count."] = df.at[int(loc[mp[i]])+2, "countt"]
+            df.loc[row + 2, "Longest Subsequence Length with Range"] = "Time"
+            df.loc[row + 2, "lsl."] = "From"
+            df.loc[row + 2, "Count."] = "To"
+            row += 1
+            for j in range(1, len(store[loc[mp[i]]]) + 1):
+                df.loc[row + j+1, "lsl."] = store[loc[mp[i]]][j - 1] - (int(df.at[int(loc[mp[i]])+2, "Longest Subsequence Length"]) - 1)*0.01
+                df.loc[row + j+1, "Count."] = store[loc[mp[i]]][j - 1]
+
+            row += (len(store[loc[mp[i]]]) + 1)
+
         df.to_excel(f'output/{file_name}_vel_octant_analysis_mod_{mod}.xlsx')
         # this part exports df to an output file if not present, otherwise it first deletes it first to avoid overwriting errors i faced in my system 
-
+        break
 
     #     print("mod: ", mod)
 
