@@ -1,0 +1,28 @@
+*{
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+div.css-1rvyln1 input{
+    color: aqua;
+    fill: azure;
+}
+
+div.css-1rvyln1{
+    background-color: #237385;
+}
+
+div.css-15jfpy5{
+    font-weight: 400;
+    color:blueviolet;
+   
+}
+
+h1{
+    text-align: center;
+    color: black;
+    background-color:azure;
+}
+
+p{
+    font-size: medium;
+}
