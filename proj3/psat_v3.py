@@ -40,15 +40,16 @@ with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # input section #1:
-st.title("P S A T")
+st.title("P S A T 3")
+constant_fk2d=0.75
+multiplying_factor_3d=0.5
+Shear_velocity=2.6**3
 constant_fk2d= st.number_input("Input the constant_fk2d value:\t", value = 0.00, step=0.01, format='%.2f')
 multiplying_factor_3d= st.number_input("Input the multiplying_factor_3d value:\t", value = 0.00, step=0.01, format='%.2f')
 Shear_velocity= st.number_input("Input x for the Shear_velocity (=x**3) value:\t", value = 0.00, step=0.01, format='%.2f')
 # Shear_velocity=(Shear_velocity)**3
 
-# constant_fk2d=0.75
-# multiplying_factor_3d=0.5
-# Shear_velocity=2.6**3
+
 
 
 
@@ -718,8 +719,19 @@ st.write('6. S & A' )
 st.write('7. C & S & A' )
 st.write('8. All Combine' )
 
-# st.write('1. C','2. S','3. A','4. C & S','5. C & A','6. S & A','7. C & S & A','8. all combine',sep='\n')
+# st.write(
+#     """
+#     '1. C'
+#     '2. S'
+#     '3. A'
+#     '4. C & S'
+#     '5. C & A'
+#     '6. S & A'
+#     '7. C & S & A'
+#     '8. all combine'
+#     """)
 # print('1. C','2. S','3. A','4. C & S','5. C & A','6. S & A','7. C & S & A','8. all combine',sep='\n')
+# tch = 3
 tch = st.number_input("Chose Filtering Method From Above:", value=0, step=1)
 # tch = int(input('Chose Filtering Method From Above:'))
 if tch == 1:
@@ -1008,16 +1020,17 @@ if sch !=0:
     st.write("SUCCESS! Executed well. Now you can check your Results_v2 file.")
     with open("Results_v2.csv") as f:
         file = f.read()
+
     st.download_button(label = "Download the Results_v2 file", 
                     file_name="Results_v2.csv",
                     data=file
                 )
-    # st.download_button(
-    # label="Download the Results_v2 file",
-    # data=csv,
-    # file_name='Results_v2.csv',
-    # mime='text/csv',
-    # )
+# st.download_button(
+# label="Download the Results_v2 file",
+# data=csv,
+# file_name='Results_v2.csv',
+# mime='text/csv',
+# )
 
 end_time = datetime.now()
 

@@ -6,11 +6,12 @@ from openpyxl.styles.borders import Border
 from openpyxl.styles import PatternFill
 from pyxlsb import open_workbook as open_xlsb
 import pandas as pd
-st.title('User Interface for tutorial 7')
-st.subheader("Be careful of the options!")
 import os
 import numpy as np
 from datetime import datetime
+
+st.title('Python Project')
+st.subheader("Hello!")
 start_time = datetime.now()
 from openpyxl.styles.borders import Border, Side
 def set_border(ws, cell_range):
@@ -39,9 +40,30 @@ def set_border(ws, cell_range):
             # set new border only if it's one of the edge cells
             if pos_x == 0 or pos_x == max_x or pos_y == 0 or pos_y == max_y:
                 cell.border = border
-files = st.file_uploader('Choose an xlsx file',type=['xlsx'],accept_multiple_files=True)
+m=st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: rgb(50, 168, 168);
+    width: 25%;
+    border-radius: 50px;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+div.stDownloadButton > download_button:first-child {
+    background-color: rgb(50, 86, 168);
+    width: 25%;
+    border-radius: 50px;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+</style>""", unsafe_allow_html=True)
+files = st.file_uploader('Choose a xlsx file',type=['xlsx'],accept_multiple_files=True)
 mx=st.number_input("Enter mod value",max_value=7000)
 button_compute = st.button("Calculate")
+
 for file in files:
     #if(os.path.isfile(os.path.join(my_file_path,file))):
         # f=open(os.path.join(my_file_path,file),'r')
@@ -50,11 +72,11 @@ for file in files:
         filename=file.name
         filename=filename.split("xlsx")[0]
         try:
-            df= pd.read_excel(file, nrows=200)
+            df= pd.read_excel(file,nrows=200)
         except: 
             print("ERROR: COULD NOT FIND THE INPUT FILE!")
         mod=mx
-        print("Your inpur file is as follows:")
+        print("Your input file is as follows:")
         st.dataframe(df)
         pd.options.mode.chained_assignment = None  # default='warn'
         df.at[0,'U-Avg']=df['U'].mean()
@@ -167,7 +189,6 @@ for file in files:
             df['Octant 4']=' '
             df['Octant -4']=' '
             octant_name_id_mapping = {"1":"Internal outward interaction", "-1":"External outward interaction", "2":"External Ejection", "-2":"Internal Ejection", "3":"External inward interaction", "-3":"Internal inward interaction", "4":"Internal sweep", "-4":"External sweep"}
-
         df['OctantID'][1]="Mod:"+str(mod) #to print mod value as a string in OctantID 1st row
         import math
         p=n/mod

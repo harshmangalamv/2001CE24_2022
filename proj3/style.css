@@ -11,6 +11,43 @@ div.css-1rvyln1{
     background-color: #237385;
 }
 
+.row-widget.stDownloadButton {
+    color: azure;
+    align-items: center;
+}
+
+/* block-container css-12oz5g7 egzxvld2{
+    background-color: blue;
+} */
+
+/* .css-7tfsex{
+    background-color: rgba(228, 211, 95, 0.657);
+} */
+
+.css-5uatcg edgvbvh10{
+    color: aqua;
+}
+.css-5uatcg {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-weight: 400;
+    padding: 0.5rem 2.5rem;
+    border-radius: 4.25rem;
+    border-radius: -0.75rem; 
+    line-height: 1.6;
+    color: green;
+    width: auto;
+    margin-left: 25%;
+    
+    user-select: none;
+    background-color: azure;
+    border: 6px solid rgba(149, 228, 234, 0.2);
+}
+
+
 div.css-15jfpy5{
     font-weight: 400;
     color:blueviolet;
